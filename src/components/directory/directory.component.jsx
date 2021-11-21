@@ -13,7 +13,7 @@ class Directory extends React.Component {
           imageUrl:
             "https://images8.alphacoders.com/115/thumb-1920-1156676.jpg",
           id: 1,
-          linkUrl: "shop/hats",
+          linkUrl: "news/events",
           subtitle: "Thông tin về các sự kiện...",
         },
         {
@@ -21,7 +21,7 @@ class Directory extends React.Component {
           imageUrl:
             "https://images3.alphacoders.com/118/thumb-1920-1187697.png",
           id: 2,
-          linkUrl: "shop/jackets",
+          linkUrl: "news/tournaments",
           subtitle: "Thông tin về các giải đấu...",
         },
         {
@@ -29,7 +29,7 @@ class Directory extends React.Component {
           imageUrl:
             "https://images6.alphacoders.com/114/thumb-1920-1142244.jpg",
           id: 3,
-          linkUrl: "shop/sneakers",
+          linkUrl: "news/videos",
           subtitle: "Thông tin về những loạt video giải trí...",
         },
         {
@@ -37,7 +37,7 @@ class Directory extends React.Component {
           imageUrl: "https://images4.alphacoders.com/600/thumb-1920-600528.png",
           size: "large",
           id: 4,
-          linkUrl: "shop/womens",
+          linkUrl: "news/promotions",
           subtitle: "Thông tin về khuyến mãi nạp thẻ...",
         },
         {
@@ -45,7 +45,7 @@ class Directory extends React.Component {
           imageUrl: "https://images8.alphacoders.com/657/thumb-1920-657974.jpg",
           size: "large",
           id: 5,
-          linkUrl: "shop/mens",
+          linkUrl: "news/updates",
           subtitle: "Thông tin về bản cập nhật...",
         },
       ],
@@ -54,14 +54,8 @@ class Directory extends React.Component {
   render() {
     return (
       <div className="directory-menu">
-        {this.state.sections.map(({ title, imageUrl, id, subtitle, size }) => (
-          <MenuItem
-            key={id}
-            title={title}
-            subtitle={subtitle}
-            imageUrl={imageUrl}
-            size={size}
-          />
+        {this.state.sections.map(({ id, ...otherSectionProps }) => (
+          <MenuItem key={id} {...otherSectionProps} />
         ))}
       </div>
     );
