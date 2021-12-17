@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { doReply } from "../../redux/post/post.actions";
+import { doReplyNew } from "../../redux/post/post.actions";
 
-const ReplyForm = ({ comments, currentPost, index }) => {
+const ReplyFormNew = ({ comments, currentPost, index }) => {
   const [openReplyForm, setOpenReplyForm] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,7 +30,12 @@ const ReplyForm = ({ comments, currentPost, index }) => {
         userId: currentUser.id,
       };
       dispatch(
-        doReply(data, currentPost.postData.comment, currentPost.postId, index)
+        doReplyNew(
+          data,
+          currentPost.postData.comment,
+          currentPost.postId,
+          index
+        )
       );
       setReply("");
     } else {
@@ -45,7 +50,12 @@ const ReplyForm = ({ comments, currentPost, index }) => {
         userId: null,
       };
       dispatch(
-        doReply(data, currentPost.postId, currentPost.postData.comment, index)
+        doReplyNew(
+          data,
+          currentPost.postId,
+          currentPost.postData.comment,
+          index
+        )
       );
       setReply("");
       setEmail("");
@@ -132,4 +142,4 @@ const ReplyForm = ({ comments, currentPost, index }) => {
     </>
   );
 };
-export default ReplyForm;
+export default ReplyFormNew;

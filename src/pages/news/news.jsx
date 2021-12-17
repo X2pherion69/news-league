@@ -5,6 +5,7 @@ import { fetchCollectionsStartAsync } from "../../redux/new/new.actions";
 import newCollectionPageContainer from "../new-collection/new-collection.container";
 import newCollectionsOverviewContainer from "../../components/new-overview/new-overview.container";
 import newItemDetailContainer from "../../components/new-item-detail/new-item-detail.container";
+import NewPostDetail from "../../components/post-content/post-created/newPostDetail";
 
 class newPage extends React.Component {
   componentDidMount() {

@@ -41,7 +41,7 @@ export const totalSelectItems = createSelector(
 
 export const selectItem = (itemId) =>
   createSelector(
-    [selectTournamentsItems],
+    [selectUpdatesItems],
     (items) => handleSelectedItem(items, itemId)[0]
   );
 

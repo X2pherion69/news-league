@@ -32,16 +32,28 @@ const postReducer = (state = INITIAL_STATE, { type, payload }) => {
       return state;
     case types.ADD_REPLY:
       const oldPost = state.posts.find((pst) => pst.postId === payload.postId);
-      oldPost.postData.comment = comment;
+      oldPost.postData.comment = payload.oldComments;
 
       state = {
         ...state,
         posts: state.posts.map((pt) =>
-          pt.postId === payload.postId ? findPost : pt
+          pt.postId === payload.postId ? oldPost : pt
         ),
       };
       return state;
+    case types.UPDATE_POST:
+      const updatedPosts = state.posts.map((pst) =>
+        pst.postId === payload.postId ? payload.updatedPosts : pst
+      );
+      state = { ...state, posts: updatedPosts };
+      return state;
     default:
+      return state;
+    case types.DELETE_POST:
+      const filteredPosts = state.posts.filter(
+        (pst) => pst.postId === !payload.postId
+      );
+      state = { ...state, posts: filteredPosts };
       return state;
   }
 };

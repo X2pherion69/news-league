@@ -14,7 +14,11 @@ import { createStructuredSelector } from "reselect";
 import newPage from "./pages/news/news";
 import postContentPage from "./pages/post-content/post-content";
 import AllPosts from "./components/post-content/post-created/post-created";
+import AllNewPosts from "./components/post-content/post-created/post-new-created";
 import SeePost from "./components/post-content/seePost/SeePost";
+import EditPost from "./components/post-content/editPost/editPost";
+import SeePostNew from "./components/post-content/seePost/SeeNewPost";
+import EditNewPost from "./components/post-content/editPost/editNewPost";
 class App extends React.Component {
   unsubscribeFromAuth = null;
   componentDidMount() {
@@ -46,9 +50,14 @@ class App extends React.Component {
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={shopPage} />
           <Route path="/news" component={newPage} />
-          <Route path={"/post/:postId"} component={() => <SeePost />} />
-          <Route exact path="/posttest" component={AllPosts} />
+          <Route exact path={"/post/:postId"} component={() => <SeePost />} />
+          <Route path={"/post/:postId/edit"} component={() => <EditPost />} />
+          <Route exact path={"/new/:postId"} component={() => <SeePostNew />} />
+          <Route path={"/new/:postId/edit"} component={() => <EditNewPost />} />
+          <Route exact path="/posttest" component={EditPost} />
           <Route exact path="/adminpost" component={postContentPage} />
+          <Route exact path="/adminshoppost" component={AllPosts} />
+          <Route exact path="/adminnewpost" component={AllNewPosts} />
           <Route exact path="/checkout" component={CheckoutPage} />
           <Route
             exact

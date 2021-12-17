@@ -8,7 +8,6 @@ import shopReducer from "./shop/shop.reducer";
 import newReducer from "./new/new.reducer";
 import directoryNewReducer from "./directory-new/directory-new.reducer";
 import postReducer from "./post/post.reducer";
-import authReducer from "./auth/auth.reducer";
 
 const persistConfig = {
   key: "root",
@@ -23,7 +22,6 @@ const rootReducer = combineReducers({
   news: newReducer,
   directoryNew: directoryNewReducer,
   posts: postReducer,
-  auth: authReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

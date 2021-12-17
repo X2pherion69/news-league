@@ -1,81 +1,71 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Form, Button, Col, Container, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { doPostNew } from "../../redux/post/post.actions";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { doUpdateNewPostData } from "../../../redux/post/post.actions";
 
-const AddDataNews = () => {
-  const dispatch = useDispatch();
+const EditNewPost = () => {
+  const { postId } = useParams();
 
-  const [id, setId] = useState("");
   const [titles, setTitles] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
   const [content, setContent] = useState("");
   const [imagecontent, setImagecontent] = useState("");
   const [secondcontent, setSecondcontent] = useState("");
   const [secondimagecontent, setSecondimagecontent] = useState("");
   const [videolink, setVideolink] = useState("");
-  const [category, setCategory] = useState("");
-  const [progress, setProgress] = useState("0");
-  const [comment, setComment] = useState("");
+
+  const dispatch = useDispatch();
+
+  const posts = useSelector((state) => state.posts.posts);
+  const currentPost = posts.find((pst) => pst.postId === postId);
+
+  useEffect(() => {
+    if (currentPost) {
+      setTitles(currentPost.postData.titles);
+      setDescription(currentPost.postData.description);
+      setContent(currentPost.postData.content);
+      setImagecontent(currentPost.postData.imagecontent);
+      setSecondcontent(currentPost.postData.secondcontent);
+      setSecondimagecontent(currentPost.postData.secondimagecontent);
+      setVideolink(currentPost.postData.videolink);
+    }
+  }, [currentPost]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (
-      !id ||
       !titles ||
       !description ||
-      !imageUrl ||
       !content ||
       !imagecontent ||
       !secondcontent ||
       !secondimagecontent ||
-      !videolink ||
-      !category
+      !videolink
     ) {
       return toast.warning("Please fill in all fields!");
     }
 
     const data = {
-      id: id,
-      titles: titles,
-      description: description,
-      imageUrl: "",
-      content: content,
-      imagecontent: imagecontent,
-      secondcontent: secondcontent,
-      secondimagecontent: secondimagecontent,
-      videolink: videolink,
-      comment: [],
-      category: category.split(","),
+      titles,
+      description,
+      content,
+      imagecontent,
+      secondcontent,
+      secondimagecontent,
+      videolink,
     };
 
-    dispatch(doPostNew(data, imageUrl, setProgress));
+    dispatch(doUpdateNewPostData(postId, currentPost, data));
   };
+
   return (
     <Container>
       <Row>
-        <Col md={12} style={{ textAlign: "right" }} className="my-5"></Col>
-        <Col md={12} className="mb-3">
-          <h1 className="display-3 text-dark text-center">
-            Create Contents Tournament
-          </h1>
-        </Col>
-        <Col md={6} className="mx-auto shadow">
-          <Form onSubmit={handleSubmit} className="p-4">
-            <Form.Group controlId="id" className="my-2">
-              <Form.Control
-                type="text"
-                name="id"
-                placeholder="ID..."
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+        <h1 className="display-3 text-center mt-4">Edit Post {postId}</h1>
+        <Col md={6} className="mx-auto mt-5">
+          <Form onSubmit={handleSubmit}>
             <Form.Group controlId="titles" className="my-2">
               <Form.Control
                 type="text"
@@ -93,14 +83,6 @@ const AddDataNews = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="imageUrl" className="my-2">
-              <input
-                type="file"
-                className="form-control"
-                onChange={(e) => setImageUrl(e.target.files[0])}
-                accept="image/png, image/jpeg, image/jpg"
-              />
             </Form.Group>
             <Form.Group controlId="content" className="my-2">
               <Form.Control
@@ -147,30 +129,13 @@ const AddDataNews = () => {
                 onChange={(e) => setVideolink(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            <Form.Group controlId="category" className="my-2">
-              <Form.Control
-                type="text"
-                name="category"
-                placeholder="Category..."
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group controlId="btn" className="my-2">
-              <Button
-                type="submit"
-                variant="dark"
-                bg="dark"
-                className="form-control"
-              >
-                Create
-              </Button>
-            </Form.Group>
+            <Button type="submit" className="mt-4 form-control" variant="dark">
+              Update Post
+            </Button>
           </Form>
         </Col>
       </Row>
-      <ToastContainer />
     </Container>
   );
 };
-export default AddDataNews;
+export default EditNewPost;

@@ -2,12 +2,13 @@ import React from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Col, Container, Row, Image } from "react-bootstrap";
-import CommentForm from "../../comments/comments";
 import { ToastContainer } from "react-toastify";
-import ReplyForm from "../../replyForm/replyForm";
+import ReplyFormNew from "../../replyForm/replyFormNew";
 import ShowReplies from "../../replyForm/ShowReply";
+import CommentNew from "../../comments/comments-news";
+import ReactPlayer from "react-player";
 
-const SeePost = () => {
+const SeePostNew = () => {
   const { postId } = useParams();
   const dispatch = useDispatch();
   const { isLoading, posts, isLoggedIn } = useSelector(
@@ -47,16 +48,18 @@ const SeePost = () => {
       <Row>
         <Col md={12} className=" mt-4">
           <Image
-            style={{ height: "650px", witdh: "100%" }}
+            style={{ height: "100vh", witdh: "100%" }}
             src={currentPost.postData.imageUrl}
           />
         </Col>
       </Row>
+
       <Row className="align-items-center justify-content-between">
         <Col md={6} className="py-5 px-5">
-          <p className="display-3">Tên sản phẩm: {currentPost.postData.name}</p>
-          <p className="display-3">Giá: {currentPost.postData.price}$</p>
+          <p className="display-4">{currentPost.postData.titles}</p>
+          <p className="display-6">{currentPost.postData.description}</p>
         </Col>
+
         <Col
           md={5}
           className="d-flex gap-1 align-items-center justify-content-end pr-5"
@@ -70,8 +73,38 @@ const SeePost = () => {
             </p>
           ))}
         </Col>
+        <Col md={12} className="py-5 px-5">
+          <ReactPlayer
+            className="Video"
+            width="62.5rem"
+            height="70vh"
+            playing={true}
+            controls={true}
+            url={`${currentPost.postData.videolink}`}
+          ></ReactPlayer>
+        </Col>
+        <Col md={12} className=" mt-4">
+          <Image
+            style={{ height: "650px", witdh: "100%" }}
+            src={currentPost.postData.imagecontent}
+          />
+        </Col>
+        <Col md={6} className="py-5 px-5">
+          <p className="display-7">Nội dung: {currentPost.postData.content}</p>
+        </Col>
+        <Col md={12} className=" mt-4">
+          <Image
+            style={{ height: "650px", witdh: "100%" }}
+            src={currentPost.postData.secondimagecontent}
+          />
+        </Col>
+        <Col md={6} className="py-5 px-5">
+          <p className="display-7">
+            Nội dung: {currentPost.postData.secondcontent}
+          </p>
+        </Col>
       </Row>
-      <CommentForm currentPost={currentPost} />
+      <CommentNew currentPost={currentPost} />
       <div className="col-md-12">
         {currentPost.postData.comment.map((comments, index) => (
           <div key={index * 9999} className="w-100 border card px-5 py-2 my-2">
@@ -91,7 +124,7 @@ const SeePost = () => {
             </div>
             <p className="mt-4">{comments.comment}</p>
             <ShowReplies allReplies={comments.replies} />
-            <ReplyForm
+            <ReplyFormNew
               comments={comments}
               currentPost={currentPost}
               index={index}
@@ -103,4 +136,4 @@ const SeePost = () => {
     </Container>
   );
 };
-export default SeePost;
+export default SeePostNew;

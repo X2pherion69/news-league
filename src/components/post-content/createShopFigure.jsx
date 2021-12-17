@@ -7,22 +7,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { doPost } from "../../redux/post/post.actions";
 
 const AddPostShopData = () => {
-  const { user, userId } = useSelector(
-    (state) => ({ user: state.user, userId: state.user.user_id }, shallowEqual)
-  );
   const dispatch = useDispatch();
 
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [category, setCategory] = useState("");
   const [progress, setProgress] = useState("0");
   const [comment, setComment] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!id || !name || !price || !imageUrl) {
+    if (!id || !name || !price || !imageUrl || !category) {
       return toast.warning("Please fill in all fields!");
     }
 
@@ -32,6 +30,7 @@ const AddPostShopData = () => {
       price: price,
       imageUrl: "",
       comment: [],
+      category: category.split(","),
     };
 
     dispatch(doPost(data, imageUrl, setProgress));
@@ -46,7 +45,7 @@ const AddPostShopData = () => {
         </Col>
         <Col md={12} className="mb-3">
           <h1 className="display-3 text-dark text-center">
-            Create Contents Shop-Figure
+            Create Contents Shop
           </h1>
         </Col>
         <Col md={6} className="mx-auto shadow">
@@ -67,6 +66,15 @@ const AddPostShopData = () => {
                 placeholder="Name..."
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="category" className="my-2">
+              <Form.Control
+                type="text"
+                name="category"
+                placeholder="Category..."
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="price" className="my-2">

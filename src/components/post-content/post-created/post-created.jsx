@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { fetchPost } from "../../../redux/post/post.actions";
+import { doDeletePost, fetchPost } from "../../../redux/post/post.actions";
 import { user } from "../../../redux/user/user.actions";
 import { Table, Card, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -20,7 +20,7 @@ const AllPosts = () => {
       dispatch(fetchPost());
     }
   }, [isLoading, dispatch]);
-  const myPosts = posts && posts.filter((pst) => pst.postData.id);
+  const myPosts = posts;
   return myPosts.map((pst, index) => (
     <Card>
       <Card.Header>
@@ -29,6 +29,7 @@ const AllPosts = () => {
             <tr>
               <th>#</th>
               <th>Name</th>
+              <th>Category</th>
               <th>Price</th>
               <th>imageUrl</th>
             </tr>
@@ -37,6 +38,7 @@ const AllPosts = () => {
             <tr>
               <td>{pst.postData.id}</td>
               <td>{pst.postData.name}</td>
+              <th>{pst.postData.category}</th>
               <td>{pst.postData.price}</td>
               <td>
                 {pst.postData.imageUrl}
@@ -65,6 +67,7 @@ const AllPosts = () => {
             type="button"
             variant="outline-primary"
             bg="primary"
+            onClick={() => history.push(`/post/${pst.postId}/edit`)}
           >
             Edit Post
           </Button>
@@ -73,6 +76,9 @@ const AllPosts = () => {
             variant="danger"
             className="form-control mx-5"
             bg="danger"
+            onClick={() =>
+              dispatch(doDeletePost(pst.postId, pst.postData.imageUrl))
+            }
           >
             Delete Post
           </Button>
